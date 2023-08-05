@@ -1,5 +1,4 @@
 FROM alpine:edge
-ARG RGA_BINARY=https://github.com/phiresky/ripgrep-all/releases/download/v0.9.6/ripgrep_all-v0.9.6-x86_64-unknown-linux-musl.tar.gz
 
 # this forces alpine/ash to read a user profile file containing the rga-fzf alias
 # ENV ENV="/root/.profile"
@@ -12,8 +11,11 @@ RUN apk add \
     poppler-utils \
     ripgrep && \
     apk add --no-cache -X http://dl-cdn.alpinelinux.org/alpine/edge/testing pandoc
-RUN curl -LO $RGA_BINARY && \
-    tar -xvf "$(basename $RGA_BINARY)" && \
-    mv ripgrep_all*/rga* /usr/local/bin
+
+ARG RGA_VERSION=v1.0.0-alpha.5
+RUN curl -s -o - -L https://github.com/phiresky/ripgrep-all/releases/download/${RGA_VERSION}/ripgrep_all-${RGA_VERSION}-x86_64-unknown-linux-musl.tar.gz | \
+    tar -xzf - && \
+    mv ripgrep_all*/rga* /usr/local/bin && \
+    rm -rf ripgrep_all*
 COPY rga_fzf /usr/local/bin/
 ENTRYPOINT rga_fzf
