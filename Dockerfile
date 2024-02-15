@@ -12,7 +12,7 @@ RUN apk add \
     ripgrep && \
     apk add --no-cache -X http://dl-cdn.alpinelinux.org/alpine/edge/testing pandoc
 
-ARG RGA_VERSION=v1.0.0-alpha.5
+ARG RGA_VERSION=v0.10.6
 RUN curl -s -o - -L https://github.com/phiresky/ripgrep-all/releases/download/${RGA_VERSION}/ripgrep_all-${RGA_VERSION}-x86_64-unknown-linux-musl.tar.gz | \
     tar -xzf - && \
     mv ripgrep_all*/rga* /usr/local/bin && \
