@@ -1,15 +1,9 @@
 #!/usr/bin/env bash
 
-if [ "$#" != "0" ]; then
-    array=( "$@" )
-    SEARCH_QUERY=${array[-1]}
-    RG_PREFIX_EXTRA=${array[@]}
-fi
-
-RG_PREFIX=${RG_PREFIX:-"rga --files-with-matches --smart-case"}
-FZF_DEFAULT_COMMAND="$RG_PREFIX $RG_PREFIX_EXTRA" \
+RG_PREFIX="${RG_PREFIX:-"rga --files-with-matches --smart-case"} $@"
+#FZF_DEFAULT_COMMAND=$RG_PREFIX \
     fzf --sort --preview="[[ ! -z {} ]] && rga --line-number --pretty --context 5 {q} {}" \
-        --phony -q "${SEARCH_QUERY}" \
+        --phony \
         --bind "change:reload:$RG_PREFIX {q}" \
         --preview-window="70%:wrap"
 
