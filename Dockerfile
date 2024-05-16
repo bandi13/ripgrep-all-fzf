@@ -5,6 +5,7 @@ FROM alpine:edge
 
 WORKDIR /app
 RUN apk add \
+    bash \
     curl \
     ffmpeg \
     fzf \
@@ -18,4 +19,4 @@ RUN curl -s -o - -L https://github.com/phiresky/ripgrep-all/releases/download/${
     mv ripgrep_all*/rga* /usr/local/bin && \
     rm -rf ripgrep_all*
 COPY rga_fzf /usr/local/bin/
-ENTRYPOINT rga_fzf
+ENTRYPOINT [ "rga_fzf" ]
